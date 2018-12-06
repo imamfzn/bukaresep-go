@@ -8,9 +8,11 @@ bukaresep-go needs a ```SQLlite3``` database to as recipe data store.
 
 ## Installation
 
-Add this package to your Golang application.
+Add this package to your Golang application. This need using
+
+
 ```bash
-dep ensure -add github.com/imamfzn/bukaresep-go
+go get github.com/imamfzn/bukaresep-go
 ```
 
 ### Configuration
@@ -124,6 +126,7 @@ if err != nil {
 
 1. Git
 2. Golang
+3. Govendor
 4. SQLite3
 
 ### Setup
@@ -131,6 +134,10 @@ if err != nil {
 1. Clone this repository
 ```bash
 git clone -b development https://github.com/imamfzn/bukaresep-go.git
+```
+2. Install required go packages
+```bash
+govendor sync
 ```
 
 ### Development Guide
