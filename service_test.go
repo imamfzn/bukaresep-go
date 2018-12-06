@@ -1,12 +1,13 @@
-package bukaresep
+package bukaresep_test
 
 import (
 	"errors"
+	"github.com/imamfzn/bukaresep-go"
 	"testing"
 )
 
 func TestGetRecipe(t *testing.T) {
-	service := NewService(CreateMockRepo())
+	service := bukaresep.NewService(CreateMockRepo())
 
 	t.Run("get exists recipe", func(t *testing.T) {
 		_, err := service.GetRecipe(1)
@@ -26,7 +27,7 @@ func TestGetRecipe(t *testing.T) {
 }
 
 func TestGetAllRecipe(t *testing.T) {
-	service := NewService(CreateMockRepo())
+	service := bukaresep.NewService(CreateMockRepo())
 
 	recipes, err := service.GetAllRecipe()
 
@@ -40,7 +41,7 @@ func TestGetAllRecipe(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	service := NewService(CreateMockRepo())
+	service := bukaresep.NewService(CreateMockRepo())
 
 	t.Run("add valid recipe", func(t *testing.T) {
 		recipes, err := service.GetAllRecipe()
@@ -97,7 +98,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	service := NewService(CreateMockRepo())
+	service := bukaresep.NewService(CreateMockRepo())
 
 	t.Run("update valid recipe", func(t *testing.T) {
 		recipe, err := service.GetRecipe(1)
@@ -133,7 +134,7 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	service := NewService(CreateMockRepo())
+	service := bukaresep.NewService(CreateMockRepo())
 	recipes, err := service.GetAllRecipe()
 
 	if err != nil {
@@ -168,21 +169,21 @@ func TestDelete(t *testing.T) {
 type mockRepo struct {
 	nextID  int
 	count   int
-	storage map[int]*Recipe
+	storage map[int]*bukaresep.Recipe
 }
 
 func CreateMockRepo() *mockRepo {
-	repo := mockRepo{1, 0, map[int]*Recipe{}}
+	repo := mockRepo{1, 0, map[int]*bukaresep.Recipe{}}
 
 	// Suply sample data
-	repo.Add(&Recipe{Name: "Chicken Katsu", Description: "Oriental Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
-	repo.Add(&Recipe{Name: "Nasi Padang", Description: "Indonesian Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
-	repo.Add(&Recipe{Name: "Dorayaki", Description: "Doraemon Cake", Ingredients: "Cake Ingredients", Instructions: "Recipe instructions"})
+	repo.Add(&bukaresep.Recipe{Name: "Chicken Katsu", Description: "Oriental Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
+	repo.Add(&bukaresep.Recipe{Name: "Nasi Padang", Description: "Indonesian Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
+	repo.Add(&bukaresep.Recipe{Name: "Dorayaki", Description: "Doraemon Cake", Ingredients: "Cake Ingredients", Instructions: "Recipe instructions"})
 
 	return &repo
 }
 
-func (repo *mockRepo) Get(id int) (*Recipe, error) {
+func (repo *mockRepo) Get(id int) (*bukaresep.Recipe, error) {
 	recipe, exists := repo.storage[id]
 
 	if !exists {
@@ -192,8 +193,8 @@ func (repo *mockRepo) Get(id int) (*Recipe, error) {
 	return recipe, nil
 }
 
-func (repo *mockRepo) GetAll() ([]*Recipe, error) {
-	recipes := []*Recipe{}
+func (repo *mockRepo) GetAll() ([]*bukaresep.Recipe, error) {
+	recipes := []*bukaresep.Recipe{}
 
 	for _, recipe := range repo.storage {
 		recipes = append(recipes, recipe)
@@ -202,7 +203,7 @@ func (repo *mockRepo) GetAll() ([]*Recipe, error) {
 	return recipes, nil
 }
 
-func (repo *mockRepo) Add(recipe *Recipe) (*Recipe, error) {
+func (repo *mockRepo) Add(recipe *bukaresep.Recipe) (*bukaresep.Recipe, error) {
 	recipe.ID = repo.nextID
 	repo.nextID++
 	repo.count++
@@ -212,7 +213,7 @@ func (repo *mockRepo) Add(recipe *Recipe) (*Recipe, error) {
 	return recipe, nil
 }
 
-func (repo *mockRepo) Update(recipe *Recipe) error {
+func (repo *mockRepo) Update(recipe *bukaresep.Recipe) error {
 	if _, exists := repo.storage[recipe.ID]; !exists {
 		return errors.New("recipe not found")
 	}
@@ -222,7 +223,7 @@ func (repo *mockRepo) Update(recipe *Recipe) error {
 	return nil
 }
 
-func (repo *mockRepo) Delete(recipe *Recipe) error {
+func (repo *mockRepo) Delete(recipe *bukaresep.Recipe) error {
 	delete(repo.storage, recipe.ID)
 
 	repo.count--

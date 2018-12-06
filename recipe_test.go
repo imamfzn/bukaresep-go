@@ -1,6 +1,7 @@
-package bukaresep
+package bukaresep_test
 
 import (
+	"github.com/imamfzn/bukaresep-go"
 	"testing"
 )
 
@@ -16,9 +17,9 @@ func TestValidity(t *testing.T) {
 		t.Run("all attributes filed", func(t *testing.T) {
 			t.Parallel()
 
-			recipe := Recipe{1, name, description, ingredients, instructions}
+			recipe := &bukaresep.Recipe{1, name, description, ingredients, instructions}
 
-			if !recipe.isValid() {
+			if !recipe.IsValid() {
 				t.Fail()
 			}
 
@@ -27,9 +28,9 @@ func TestValidity(t *testing.T) {
 		t.Run("ID not filled", func(t *testing.T) {
 			t.Parallel()
 
-			recipe := Recipe{0, name, description, ingredients, instructions}
+			recipe := bukaresep.Recipe{0, name, description, ingredients, instructions}
 
-			if !recipe.isValid() {
+			if !recipe.IsValid() {
 				t.Fail()
 			}
 		})
@@ -41,9 +42,9 @@ func TestValidity(t *testing.T) {
 		t.Run("Name is blank", func(t *testing.T) {
 			t.Parallel()
 
-			recipe := Recipe{1, "", description, ingredients, instructions}
+			recipe := bukaresep.Recipe{1, "", description, ingredients, instructions}
 
-			if recipe.isValid() {
+			if recipe.IsValid() {
 				t.Fail()
 			}
 		})
@@ -51,9 +52,9 @@ func TestValidity(t *testing.T) {
 		t.Run("Description is blank", func(t *testing.T) {
 			t.Parallel()
 
-			recipe := Recipe{1, name, "", ingredients, instructions}
+			recipe := bukaresep.Recipe{1, name, "", ingredients, instructions}
 
-			if recipe.isValid() {
+			if recipe.IsValid() {
 				t.Fail()
 			}
 		})
@@ -61,9 +62,9 @@ func TestValidity(t *testing.T) {
 		t.Run("Ingredients is blank", func(t *testing.T) {
 			t.Parallel()
 
-			recipe := Recipe{1, name, description, "", instructions}
+			recipe := bukaresep.Recipe{1, name, description, "", instructions}
 
-			if recipe.isValid() {
+			if recipe.IsValid() {
 				t.Fail()
 			}
 		})
@@ -71,9 +72,9 @@ func TestValidity(t *testing.T) {
 		t.Run("Instructions is blank", func(t *testing.T) {
 			t.Parallel()
 
-			recipe := Recipe{1, name, description, ingredients, ""}
+			recipe := bukaresep.Recipe{1, name, description, ingredients, ""}
 
-			if recipe.isValid() {
+			if recipe.IsValid() {
 				t.Fail()
 			}
 		})
@@ -81,9 +82,9 @@ func TestValidity(t *testing.T) {
 		t.Run("All blank", func(t *testing.T) {
 			t.Parallel()
 
-			recipe := Recipe{0, "", "", "", ""}
+			recipe := bukaresep.Recipe{0, "", "", "", ""}
 
-			if recipe.isValid() {
+			if recipe.IsValid() {
 				t.Fail()
 			}
 		})
