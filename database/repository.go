@@ -4,6 +4,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/imamfzn/bukaresep-go"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/subosito/gotenv"
 
 	"os"
 )
@@ -17,6 +18,8 @@ type repository struct {
 // New repository will return an implementation of Repository.
 // It will use sqlite3 as database driver implementation.
 func NewRepository() (bukaresep.Repository, error) {
+	gotenv.Load()
+
 	db, err := xorm.NewEngine(DEFAULT_DB_DRIVER, os.Getenv("BUKARESEP_DB_FILENAME"))
 
 	if err != nil {
