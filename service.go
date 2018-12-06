@@ -57,7 +57,7 @@ func (s *service) AddRecipe(name string, description string, ingredients string,
 		Instructions: instructions,
 	}
 
-	if !recipe.isValid() {
+	if !recipe.IsValid() {
 		return nil, errors.New("Recipe is invalid")
 	}
 
@@ -67,7 +67,7 @@ func (s *service) AddRecipe(name string, description string, ingredients string,
 // Update recipe will update to Recipe in the repository with the values suplied in the
 // recipe object parameter. It also will return an error if the recipe become invalid.
 func (s *service) UpdateRecipe(recipe *Recipe) error {
-	if !recipe.isValid() {
+	if !recipe.IsValid() {
 		return errors.New("Recipe is invalid")
 	}
 
