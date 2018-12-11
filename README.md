@@ -126,7 +126,6 @@ if err != nil {
 
 1. Git
 2. Golang
-3. Govendor
 4. SQLite3
 
 ### Setup
@@ -137,7 +136,7 @@ git clone -b development https://github.com/imamfzn/bukaresep-go.git
 ```
 2. Install required go packages
 ```bash
-govendor sync
+go get -u
 ```
 
 ### Development Guide
