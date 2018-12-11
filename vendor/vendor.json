@@ -13,12 +13,6 @@
 			"path": "github.com/mattn/go-sqlite3",
 			"revision": "6a9185d7b1f12363e2c904449d374b63b6093b16",
 			"revisionTime": "2018-11-21T16:49:42Z"
-		},
-		{
-			"checksumSHA1": "lABlK8qafEBEGjPEsV8H2jZqr9w=",
-			"path": "github.com/subosito/gotenv",
-			"revision": "69b5b6104433beb2cb9c3ce00bdadf3c7c2d3f34",
-			"revisionTime": "2018-06-05T02:01:30Z"
 		}
 	],
 	"rootPath": "github.com/imamfzn/bukaresep-go"
