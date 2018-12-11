@@ -3,15 +3,11 @@ package database_test
 import (
 	"github.com/imamfzn/bukaresep-go"
 	"github.com/imamfzn/bukaresep-go/database"
-
-	"os"
 	"testing"
 )
 
 func CreateRepository() (bukaresep.Repository, error) {
-	os.Setenv("BUKARESEP_DB_FILENAME", "file::memory:")
-
-	repo, err := database.NewRepository()
+	repo, err := database.NewRepository("file::memory:")
 
 	if err != nil {
 		return nil, err
@@ -30,9 +26,7 @@ func TestNewRepository(t *testing.T) {
 	})
 
 	t.Run("wrong db filename", func(t *testing.T) {
-		os.Setenv("BUKARESEP_DB_FILENAME", "/dev/null")
-
-		_, err := database.NewRepository()
+		_, err := database.NewRepository("/dev/null")
 
 		if err == nil {
 			t.Fail()
