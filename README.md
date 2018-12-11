@@ -153,3 +153,7 @@ go test ./... -coverprofile cp.out
 ```bash
 go tool cover -html=cp.out
 ```
+4. To run linter test:
+```bash
+golint ./...
+```
