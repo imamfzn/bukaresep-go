@@ -26,7 +26,7 @@ type service struct {
 	repo Repository
 }
 
-// New Service will return an implementation of a Service. It should be supplied
+// NewService will return an implementation of a Service. It should be supplied
 // with an implementation o a Repository.
 func NewService(repo Repository) Service {
 	return &service{
