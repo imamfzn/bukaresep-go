@@ -49,10 +49,21 @@ import (
   "log",
   "github.com/imamfzn/bukaresep-go"
   "github.com/imamfzn/bukaresep-go/database"
+  "github.com/imamfzn/bukaresep-go/entity"
+  "github.com/imamfzn/bukaresep-go/repository"
 )
 
+// create database instance
+// in this sample will use sqlite driver
+db, err := database.CreateDatabase("file::memory:")
+
+if err != nil {
+  log.Fatal(err)
+}
+
 // create repo for data access
-repo, err := database.NewRepository()
+// using db instance beforesss
+repo, err := repository.NewRepository(db)
 
 if err != nil {
   log.Fatal(err)
