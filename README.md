@@ -49,7 +49,6 @@ import (
   "log",
   "github.com/imamfzn/bukaresep-go"
   "github.com/imamfzn/bukaresep-go/database"
-  "github.com/imamfzn/bukaresep-go/entity"
   "github.com/imamfzn/bukaresep-go/repository"
 )
 
