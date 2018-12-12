@@ -1,4 +1,4 @@
-package bukaresep
+package entity
 
 // Recipe is a struct representation of a recipe
 type Recipe struct {

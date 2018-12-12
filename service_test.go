@@ -3,6 +3,7 @@ package bukaresep_test
 import (
 	"errors"
 	"github.com/imamfzn/bukaresep-go"
+	"github.com/imamfzn/bukaresep-go/entity"
 	"testing"
 )
 
@@ -169,21 +170,21 @@ func TestDelete(t *testing.T) {
 type mockRepo struct {
 	nextID  int
 	count   int
-	storage map[int]*bukaresep.Recipe
+	storage map[int]*entity.Recipe
 }
 
 func CreateMockRepo() *mockRepo {
-	repo := mockRepo{1, 0, map[int]*bukaresep.Recipe{}}
+	repo := mockRepo{1, 0, map[int]*entity.Recipe{}}
 
 	// Suply sample data
-	repo.Add(&bukaresep.Recipe{Name: "Chicken Katsu", Description: "Oriental Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
-	repo.Add(&bukaresep.Recipe{Name: "Nasi Padang", Description: "Indonesian Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
-	repo.Add(&bukaresep.Recipe{Name: "Dorayaki", Description: "Doraemon Cake", Ingredients: "Cake Ingredients", Instructions: "Recipe instructions"})
+	repo.Add(&entity.Recipe{Name: "Chicken Katsu", Description: "Oriental Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
+	repo.Add(&entity.Recipe{Name: "Nasi Padang", Description: "Indonesian Food", Ingredients: "Food Ingredients", Instructions: "Recipe instructions"})
+	repo.Add(&entity.Recipe{Name: "Dorayaki", Description: "Doraemon Cake", Ingredients: "Cake Ingredients", Instructions: "Recipe instructions"})
 
 	return &repo
 }
 
-func (repo *mockRepo) Get(id int) (*bukaresep.Recipe, error) {
+func (repo *mockRepo) Get(id int) (*entity.Recipe, error) {
 	recipe, exists := repo.storage[id]
 
 	if !exists {
@@ -193,8 +194,8 @@ func (repo *mockRepo) Get(id int) (*bukaresep.Recipe, error) {
 	return recipe, nil
 }
 
-func (repo *mockRepo) GetAll() ([]*bukaresep.Recipe, error) {
-	recipes := []*bukaresep.Recipe{}
+func (repo *mockRepo) GetAll() ([]*entity.Recipe, error) {
+	recipes := []*entity.Recipe{}
 
 	for _, recipe := range repo.storage {
 		recipes = append(recipes, recipe)
@@ -203,7 +204,7 @@ func (repo *mockRepo) GetAll() ([]*bukaresep.Recipe, error) {
 	return recipes, nil
 }
 
-func (repo *mockRepo) Add(recipe *bukaresep.Recipe) (*bukaresep.Recipe, error) {
+func (repo *mockRepo) Add(recipe *entity.Recipe) (*entity.Recipe, error) {
 	recipe.ID = repo.nextID
 	repo.nextID++
 	repo.count++
@@ -213,7 +214,7 @@ func (repo *mockRepo) Add(recipe *bukaresep.Recipe) (*bukaresep.Recipe, error) {
 	return recipe, nil
 }
 
-func (repo *mockRepo) Update(recipe *bukaresep.Recipe) error {
+func (repo *mockRepo) Update(recipe *entity.Recipe) error {
 	if _, exists := repo.storage[recipe.ID]; !exists {
 		return errors.New("recipe not found")
 	}
@@ -223,7 +224,7 @@ func (repo *mockRepo) Update(recipe *bukaresep.Recipe) error {
 	return nil
 }
 
-func (repo *mockRepo) Delete(recipe *bukaresep.Recipe) error {
+func (repo *mockRepo) Delete(recipe *entity.Recipe) error {
 	delete(repo.storage, recipe.ID)
 
 	repo.count--

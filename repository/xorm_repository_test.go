@@ -1,37 +1,26 @@
-package database_test
+package repository_test
 
 import (
-	"github.com/imamfzn/bukaresep-go"
 	"github.com/imamfzn/bukaresep-go/database"
+	"github.com/imamfzn/bukaresep-go/entity"
+	"github.com/imamfzn/bukaresep-go/repository"
 	"testing"
 )
 
-func CreateRepository() (bukaresep.Repository, error) {
-	repo, err := database.NewRepository("file::memory:")
+func CreateRepository() (repository.Repository, error) {
+	db, err := database.CreateDatabase("file::memory:")
+
+	if err != nil {
+		return nil, err
+	}
+
+	repo, err := repository.NewRepository(db)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return repo, nil
-}
-
-func TestNewRepository(t *testing.T) {
-	t.Run("right db filename", func(t *testing.T) {
-		_, err := CreateRepository()
-
-		if err != nil {
-			t.Fail()
-		}
-	})
-
-	t.Run("wrong db filename", func(t *testing.T) {
-		_, err := database.NewRepository("/dev/null")
-
-		if err == nil {
-			t.Fail()
-		}
-	})
 }
 
 func TestAdd(t *testing.T) {
@@ -41,7 +30,7 @@ func TestAdd(t *testing.T) {
 		t.Fail()
 	}
 
-	_, err = repo.Add(&bukaresep.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
+	_, err = repo.Add(&entity.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
 
 	if err != nil {
 		t.Fail()
@@ -65,7 +54,7 @@ func TestGet(t *testing.T) {
 		t.Fail()
 	}
 
-	sampleRecipe, err := repo.Add(&bukaresep.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
+	sampleRecipe, err := repo.Add(&entity.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
 
 	if err != nil {
 		t.Fail()
@@ -102,7 +91,7 @@ func TestGetAll(t *testing.T) {
 	numOfSample := 3
 
 	for i := 0; i < numOfSample; i++ {
-		_, err = repo.Add(&bukaresep.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
+		_, err = repo.Add(&entity.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
 
 		if err != nil {
 			t.Fail()
@@ -127,7 +116,7 @@ func TestUpdate(t *testing.T) {
 		t.Fail()
 	}
 
-	sampleRecipe, err := repo.Add(&bukaresep.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
+	sampleRecipe, err := repo.Add(&entity.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
 
 	if err != nil {
 		t.Fail()
@@ -154,7 +143,7 @@ func TestDelete(t *testing.T) {
 		t.Fail()
 	}
 
-	sampleRecipe, err := repo.Add(&bukaresep.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
+	sampleRecipe, err := repo.Add(&entity.Recipe{Name: "Food-name", Description: "food-desc", Ingredients: "food-ings", Instructions: "food-instr"})
 
 	if err != nil {
 		t.Fail()

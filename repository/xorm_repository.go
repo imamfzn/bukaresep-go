@@ -1,42 +1,25 @@
-package database
+package repository
 
 import (
 	"github.com/go-xorm/xorm"
-	"github.com/imamfzn/bukaresep-go"
-
-	// it required for xorm
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/imamfzn/bukaresep-go/entity"
 )
 
-const dbDriver = "sqlite3"
-
-type sqliteRepository struct {
+type xormRepository struct {
 	db *xorm.Engine
 }
 
 // NewRepository will return an implementation of Repository.
-// It will use sqlite3 as database driver implementation.
-func NewRepository(dbFilename string) (bukaresep.Repository, error) {
-	db, err := xorm.NewEngine(dbDriver, dbFilename)
-
-	if err != nil {
-		return nil, err
-	}
-
-	err = db.Sync(new(bukaresep.Recipe))
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &sqliteRepository{db: db}, nil
+// It will use xorm driver implementation.
+func NewRepository(db *xorm.Engine) (Repository, error) {
+	return &xormRepository{db: db}, nil
 }
 
 // Get will return a row by recipe id that has been transformed to Recipe by xorm
 // if recipe not, it will return recipe object will ID = 0
 // It also will return an error if error occured from database
-func (repo *sqliteRepository) Get(id int) (*bukaresep.Recipe, error) {
-	recipe := &bukaresep.Recipe{}
+func (repo *xormRepository) Get(id int) (*entity.Recipe, error) {
+	recipe := &entity.Recipe{}
 
 	_, err := repo.db.ID(id).Get(recipe)
 
@@ -45,8 +28,8 @@ func (repo *sqliteRepository) Get(id int) (*bukaresep.Recipe, error) {
 
 // Get all will return all row of recipe table and will transformed as list of Recipe by xorm.
 // It also return an error if error occured from database.
-func (repo *sqliteRepository) GetAll() ([]*bukaresep.Recipe, error) {
-	recipes := []*bukaresep.Recipe{}
+func (repo *xormRepository) GetAll() ([]*entity.Recipe, error) {
+	recipes := []*entity.Recipe{}
 
 	err := repo.db.Find(&recipes)
 
@@ -55,7 +38,7 @@ func (repo *sqliteRepository) GetAll() ([]*bukaresep.Recipe, error) {
 
 // Add will insert a new recipe to database.
 // It also return an error if error occured from database.
-func (repo *sqliteRepository) Add(recipe *bukaresep.Recipe) (*bukaresep.Recipe, error) {
+func (repo *xormRepository) Add(recipe *entity.Recipe) (*entity.Recipe, error) {
 	_, err := repo.db.Insert(recipe)
 
 	return recipe, err
@@ -63,7 +46,7 @@ func (repo *sqliteRepository) Add(recipe *bukaresep.Recipe) (*bukaresep.Recipe, 
 
 // Update will update the row recipe from database by recipe object from parameter.
 // It will return an error if error occured from database.
-func (repo *sqliteRepository) Update(recipe *bukaresep.Recipe) error {
+func (repo *xormRepository) Update(recipe *entity.Recipe) error {
 	_, err := repo.db.ID(recipe.ID).Update(recipe)
 
 	return err
@@ -71,7 +54,7 @@ func (repo *sqliteRepository) Update(recipe *bukaresep.Recipe) error {
 
 // Delte will remove the row by recipe ID from recipe obeject parameter.
 // It will return an error if error occured from database.
-func (repo *sqliteRepository) Delete(recipe *bukaresep.Recipe) error {
+func (repo *xormRepository) Delete(recipe *entity.Recipe) error {
 	_, err := repo.db.ID(recipe.ID).Delete(recipe)
 
 	return err
