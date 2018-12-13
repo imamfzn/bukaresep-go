@@ -9,9 +9,9 @@ type xormRepository struct {
 	db *xorm.Engine
 }
 
-// NewRepository will return an implementation of Repository.
+// NewXormRepository will return an implementation of Repository.
 // It will use xorm driver implementation.
-func NewRepository(db *xorm.Engine) (Repository, error) {
+func NewXormRepository(db *xorm.Engine) (Repository, error) {
 	return &xormRepository{db: db}, nil
 }
 
