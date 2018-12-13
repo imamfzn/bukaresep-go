@@ -4,7 +4,7 @@ A simple go package to manage food recipes
 
 ## Dependency
 
-bukaresep-go needs a ```SQLlite3``` database to as recipe data store.
+bukaresep-go needs a ```SQLlite3``` database to as recipe data store and ```xorm``` dependency as orm database.
 
 ## Installation
 
@@ -47,22 +47,30 @@ Set up a service
 ```golang
 import (
   "log",
+  "github.com/go-xorm/xorm"
   "github.com/imamfzn/bukaresep-go"
-  "github.com/imamfzn/bukaresep-go/database"
   "github.com/imamfzn/bukaresep-go/repository"
+  _ "github.com/mattn/go-sqlite3"
 )
 
-// create database instance
-// in this sample will use sqlite driver
-db, err := database.CreateDatabase("file::memory:")
+// create database instance using xorm
+// in this example we will use sqlite driver
+db, err := xorm.NewEngine("sqlite3", "file::memory:")
 
 if err != nil {
   log.Fatal(err)
 }
 
+// syncronize recipe entity to database
+err = db.Sync(new(entity.Recipe))
+
+if err != nil {
+  return nil, err
+}
+
 // create repo for data access
-// using db instance beforesss
-repo, err := repository.NewRepository(db)
+// using db instance before
+repo, err := repository.NewXormRepository(db)
 
 if err != nil {
   log.Fatal(err)
