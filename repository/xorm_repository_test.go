@@ -1,20 +1,29 @@
 package repository_test
 
 import (
-	"github.com/imamfzn/bukaresep-go/database"
+	"github.com/go-xorm/xorm"
 	"github.com/imamfzn/bukaresep-go/entity"
 	"github.com/imamfzn/bukaresep-go/repository"
+
+	// it required for xorm
+	_ "github.com/mattn/go-sqlite3"
 	"testing"
 )
 
 func CreateRepository() (repository.Repository, error) {
-	db, err := database.CreateDatabase("file::memory:")
+	db, err := xorm.NewEngine("sqlite3", "file::memory:")
 
 	if err != nil {
 		return nil, err
 	}
 
-	repo, err := repository.NewRepository(db)
+	err = db.Sync(new(entity.Recipe))
+
+	if err != nil {
+		return nil, err
+	}
+
+	repo, err := repository.NewXormRepository(db)
 
 	if err != nil {
 		return nil, err
