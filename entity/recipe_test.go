@@ -91,3 +91,18 @@ func TestValidity(t *testing.T) {
 	})
 
 }
+
+func TestToJSON(t *testing.T) {
+	recipe := entity.Recipe{1, "food", "desc", "ing", "instr"}
+	expected := `{"id":1,"name":"food","description":"desc","ingredients":"ing","instructions":"instr"}`
+
+	actual, err := recipe.ToJSON()
+
+	if err != nil {
+		t.Fail()
+	}
+
+	if string(actual) != expected {
+		t.Fail()
+	}
+}
