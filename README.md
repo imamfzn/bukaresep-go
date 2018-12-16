@@ -143,7 +143,7 @@ if err != nil {
 ### Prerequisite
 
 1. Git
-2. Golang
+2. Golang 1.11 or later
 4. SQLite3
 
 ### Setup
