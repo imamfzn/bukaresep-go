@@ -15,13 +15,6 @@ Add this package to your Golang application. This need using
 go get github.com/imamfzn/bukaresep-go
 ```
 
-### Configuration
-
-Copy ```env.sample``` to ```.env``` and change the variable to set your sqlite3 db filename.
-
-bukaresep-go will handle the migration automatically.
-
-
 ## Scope
 
 bukaresep should be able to:
@@ -151,10 +144,6 @@ if err != nil {
 1. Clone this repository
 ```bash
 git clone -b development https://github.com/imamfzn/bukaresep-go.git
-```
-2. Install required go packages
-```bash
-go get -u
 ```
 
 ### Development Guide
