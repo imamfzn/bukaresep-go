@@ -12,7 +12,7 @@ type Recipe struct {
 }
 
 // IsValid return true if recipe is valid; false otherwise
-// Recipe will valid, if all field all filled
+// Recipe will valid, if all field was filled
 func (recipe *Recipe) IsValid() bool {
 	return recipe.Name != "" && recipe.Description != "" && recipe.Ingredients != "" && recipe.Instructions != ""
 }

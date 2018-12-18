@@ -11,11 +11,35 @@ import (
 )
 
 var (
-	sampleRecipe  = entity.Recipe{0, "chicken katsu", "japanese food", "chicken,salt,egg", "just merge all"}
+	sampleRecipe = entity.Recipe{
+		ID:           0,
+		Name:         "chicken katsu",
+		Description:  "japanese food",
+		Ingredients:  "chicken,salt,egg",
+		Instructions: "just merge all",
+	}
 	sampleRecipes = []entity.Recipe{
-		entity.Recipe{1, "chicken katsu", "japanese food", "chicken,salt,egg", "just merge all"},
-		entity.Recipe{2, "egg roll", "delicious egg", "egg", "roll the egg"},
-		entity.Recipe{3, "meat ball", "indonesian food", "meat,salt", "make the meat like a ball"},
+		entity.Recipe{
+			ID:           1,
+			Name:         "chicken katsu",
+			Description:  "japanese food",
+			Ingredients:  "chicken,salt,egg",
+			Instructions: "just merge all",
+		},
+		entity.Recipe{
+			ID:           2,
+			Name:         "egg roll",
+			Description:  "delicious egg",
+			Ingredients:  "egg",
+			Instructions: "roll the egg",
+		},
+		entity.Recipe{
+			ID:           3,
+			Name:         "meat ball",
+			Description:  "indonesian food",
+			Ingredients:  "meat,salt",
+			Instructions: "make the meat like a ball",
+		},
 	}
 )
 
@@ -30,7 +54,7 @@ func CreateRepository(t *testing.T) repository.Repository {
 	db, err := CreateDatabase()
 
 	if err != nil {
-		t.Errorf("Errow while creating a database from xorm")
+		t.Errorf("Error while creating a database from xorm")
 	}
 
 	repo, err := repository.NewXormRepository(db)
@@ -57,7 +81,7 @@ func CreateRepositoryWithSeed(t *testing.T, ns int) repository.Repository {
 		_, err := repo.Add(&sampleRecipes[i])
 
 		if err != nil {
-			t.Errorf("Errow while inserting sample recipe to db")
+			t.Errorf("Error while inserting sample recipe to db")
 		}
 	}
 
@@ -84,7 +108,7 @@ func TestNewXormRepository(t *testing.T) {
 	db, err := CreateDatabase()
 
 	if err != nil {
-		t.Errorf("Errow while creating a database from xorm")
+		t.Errorf("Error while creating a database from xorm")
 	}
 
 	_, err = repository.NewXormRepository(db)
@@ -100,7 +124,7 @@ func TestAdd(t *testing.T) {
 	actual, err := repo.Add(&sampleRecipe)
 
 	if err != nil {
-		t.Errorf("Errow while adding a recipe to database")
+		t.Errorf("Error while adding a recipe to database")
 	}
 
 	if !IsEqualRecipe(&sampleRecipe, actual) {
@@ -115,14 +139,14 @@ func TestGet(t *testing.T) {
 	expected, err := repo.Add(&sampleRecipe)
 
 	if err != nil {
-		t.Errorf("Errow while adding a sample recipe to database")
+		t.Errorf("Error while adding a sample recipe to database")
 	}
 
 	t.Run("exists id", func(t *testing.T) {
 		actual, err := repo.Get(expected.ID)
 
 		if err != nil {
-			t.Errorf("Errow while getting a recipe by ID")
+			t.Errorf("Error while getting a recipe by ID")
 		}
 
 		if !IsEqualRecipe(expected, actual) {
@@ -134,7 +158,7 @@ func TestGet(t *testing.T) {
 		recipe, err := repo.Get(-1)
 
 		if err != nil {
-			t.Errorf("Errow while getting a recipe by ID")
+			t.Errorf("Error while getting a recipe by ID")
 		}
 
 		if recipe.ID != 0 {

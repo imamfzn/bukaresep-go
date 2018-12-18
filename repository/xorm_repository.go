@@ -16,7 +16,7 @@ func NewXormRepository(db *xorm.Engine) (Repository, error) {
 }
 
 // Get will return a row by recipe id that has been transformed to Recipe by xorm
-// if recipe not, it will return recipe object will ID = 0
+// if recipe not exists, it will return Recipe object with ID = 0
 // It also will return an error if error occured from database
 func (repo *xormRepository) Get(id int) (*entity.Recipe, error) {
 	recipe := &entity.Recipe{}
@@ -52,7 +52,7 @@ func (repo *xormRepository) Update(recipe *entity.Recipe) error {
 	return err
 }
 
-// Delte will remove the row by recipe ID from recipe obeject parameter.
+// Delete will remove the row by recipe ID from recipe obeject parameter.
 // It will return an error if error occured from database.
 func (repo *xormRepository) Delete(recipe *entity.Recipe) error {
 	_, err := repo.db.ID(recipe.ID).Delete(recipe)
